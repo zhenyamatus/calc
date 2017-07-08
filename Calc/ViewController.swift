@@ -7,19 +7,86 @@
 //
 
 import UIKit
+import Darwin
+
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    @IBOutlet weak var display: UILabel!
+    
+    var DisplayValue: Double
+        
+        {
+        
+        get
+        {
+            return Double(display.text!)!
+        }
+        
+        set {  display.text = String(newValue)}
+    
+    
+    
     }
+    
+    var userIsInTheMiddleOfTyping = false
+    
+    
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func TouchDigit(_ sender: UIButton) {
+        let digit = sender.currentTitle!
+        if(userIsInTheMiddleOfTyping)
+            
+        {
+            if(digit==".")
+            {
+            sender.isEnabled = false
+            
+            }
+            
+            display.text! = display.text! + digit
+            
+        }
+            
+        else
+        { display.text! = digit
+            userIsInTheMiddleOfTyping = true
+        }
+        
+        
     }
-
-
+    
+    private var brain  = Brain()
+    
+    @IBAction func sqrt(_ sender: UIButton) {
+        
+      
+        
+         if (userIsInTheMiddleOfTyping)
+        
+         {
+            brain.setOperand(DisplayValue)
+        
+        userIsInTheMiddleOfTyping = false
+        }
+        
+        
+        if let mathsymb = sender.currentTitle
+        
+        { brain.performOperation(mathsymb)}
+        
+        if let result = brain.result
+        {
+        
+        DisplayValue = result
+        }
+        
+        
+        
+    
+        
+    }
 }
 
