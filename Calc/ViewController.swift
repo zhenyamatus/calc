@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         get
         {
             return Double(display.text!)!
+           // print("Hello")
         }
         
         set {  display.text = String(newValue)}
